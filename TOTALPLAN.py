@@ -1,35 +1,79 @@
 #-*- coding: utf-8 -*-
-import MealyMachine
+import DFA
+import os
 import sys
-import Chain
 
-f_mm = open(sys.argv[1], "r")
-mealy = MealyMachine.makeMealyMachine(f_mm)
+f_dfa = open(sys.argv[1], "r")
+dfa = DFA.makeDFA(f_dfa)
 
 val = raw_input("Please enter alphabets: ")
-val = val.strip()
-arr = val.split('<')
-chain = list(arr[0])
-backspace = len(arr) - 1
+chain = val.strip()
 
-mealy.initialize()
-effectiveness, MMoutput = MealyMachine.isSentence(mealy, chain)
-MMoutput = list(MMoutput)
+dfa.initialize()
+effectiveness = DFA.isSentence(dfa, chain)
 
 if effectiveness == True:
-    #chain = Chain.hangeulize_chain(chain)
-    #print "MMoutput: ", MMoutput
-    #print "chain: ", chain
-    #print("VALID!!!!!")
-    
-    marked_chain = Chain.position_marker(chain, MMoutput)	# rhkwkfmfajrwk->r1h2k2w1k2f1m2f3a1j2r3w1k2
-    #print "marked_chain: ", marked_chain
-    codonized_chain = Chain.codonize(marked_chain)			# [r1h2k2][w1k2][f1m2f3][a1j2r3][w1k2]
-    processed_codonized_chain = Chain.process_del(codonized_chain,backspace)
-    letterized_chain = Chain.letterize_chain(processed_codonized_chain)	# ['과','자','를','먹','자']
-    #print letterized_chain
-    Chain.sentence_printer(letterized_chain)					# >> 과자를먹자
+	chain = list(chain)
+	print("VALID!!!!!")
+	"""
+	marked_chain = position_marker(chain)				# rhkwkfmfajrwk->r1h2k2w1k2f1m2f3a1j2r3w1k2
+	codonized_chain = codonize(marked_chain)			# [r1h2k2][w1k2][f1m2f3][a1j2r3][w1k2]
+	letterized_chain = letterize_chain(codonized_chain)	# ['과','자','를','먹','자']
+	sentence_printer(letterized_chain)					# >> 과자를먹자
+	"""
 else:
-    print("Invalid Hangeul")
+	print("Invalid Hangeul")
 
-f_mm.close()
+f_dfa.close()
+
+
+# Functions used
+def position_marker(chain):
+	"""Gets a chain, outputs the mareked chain"""
+	marked_chain = []
+    for index, current in enumerate(chain):
+    	if index < len(chain) - 1:
+    		next_ = current[index + 1]
+    	# Black? Red? Blue?	
+        if current == Black:
+        	current.position = 1
+            continue
+        elif current == Red:
+            marked_chain.append([current,2])
+            if next_ == Red:
+                    next_.position = 2
+                    marked_chain.append([])
+                    continue
+            elif next_ == Blue:
+                    next_.position = 3
+                    continue
+        elif current == Blue:
+            if next_ = Black:
+                    current.position = 3
+                    next_.position = 1
+                    continue
+            elif next_ = Red:
+                    current.position = 1
+                    next_.position = 2
+                    continue
+            elif next_ = Blue:
+                    current.position = 3
+                    next_.position = 3
+                    continue
+	return marked_chain
+
+def codonize(marked_chain):
+	"""Gets a marked_chain, outputs the codonized chain"""
+	return 2
+
+def codon_merge(codon):
+	"""Gets single codon, outputs the merged form, namely the letter"""
+	return 2
+
+def letterize_chain(codonized_chain):
+	"""Gets codonized_chain, outputs the letterized chain"""
+	return 2
+
+def sentence_printer(letterized_chain):
+	"""Gets letterized_chain, outputs the correct hangeul sentence"""
+	return 2

@@ -70,7 +70,7 @@ def makeMealyMachine(Mealy_info):
     """Read a formatted text file, and make a MealyMachine object with that."""
     lines = Mealy_info.readlines()
     lines = map(lambda s: s.strip(), lines)
-    #print lines
+    print lines
     
     for i in range(len(lines)):
         if lines[i] == 'State': state_index = i+1
@@ -87,7 +87,7 @@ def makeMealyMachine(Mealy_info):
         elem = lines[trans_index + j].split(",")
         elem[-1].strip()
         transition.append(elem)
-    #print "transition: ", transition
+    print "transition: ", transition
     out_symbols = lines[out_symbol_index].split(",")
     out_func = []
     for j in range(initial_index - out_func_index - 1):
@@ -104,16 +104,16 @@ def makeMealyMachine(Mealy_info):
 def isSentence(MM, string):
     """Let MM read a string. If MM can read that to the end, return True."""
     read = 0
-    #MM.print_state()
+    MM.print_state()
     output = ''
     for i in range(len(string)):
         if MM.get_alive()==True:
             s = MM.transit(string[i])
-            #MM.print_state()
+            MM.print_state()
             read = read + 1
             output = output + str(s)
-    #print "\nstring len: ", len(string), "#of read: ", read
-    #print "------------------------------------------------------"
+    print "\nstring len: ", len(string), "#of read: ", read
+    print "------------------------------------------------------"
     if (read == len(string)):
         return True, output
     else:

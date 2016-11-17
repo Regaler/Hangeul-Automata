@@ -1,6 +1,5 @@
 #-*- coding: utf-8 -*-
 # Functions used
-import sys
 
 def position_marker(chain, MMoutput):
     """Gets a chain, outputs the mareked chain"""
@@ -12,17 +11,17 @@ def position_marker(chain, MMoutput):
         marked_chain.append([elem,0])
     
     for index, current in enumerate(chain):
-        #print current
+        print current
         # Define next_
     	if index < len(chain) - 1:
     	    next_ = chain[index+1]
     	# Now test
         if MMoutput[index] in Black: # Black
-            #print "It's black"
+            print "It's black"
             marked_chain[index][1] = 1
             continue
         elif MMoutput[index] in Red: # Red
-            #print "It's Red"
+            print "It's Red"
             marked_chain[index][1] = 2
             if index == len(chain) - 1:
                 continue
@@ -33,7 +32,7 @@ def position_marker(chain, MMoutput):
                 marked_chain[index+1][1] = 3
                 continue
         elif MMoutput[index] in Blue: # Blue
-            #print "It's Blue"
+            print "It's Blue"
             if index == len(chain) - 1:
                 continue
             elif MMoutput[index+1] in Black:
@@ -50,7 +49,7 @@ def position_marker(chain, MMoutput):
                 continue
         else:
             print "It's else"
-    #print "This print statement works"
+    print "This print statement works"
     return marked_chain
 
 def codonize(marked_chain):
@@ -70,23 +69,6 @@ def codonize(marked_chain):
             codon = []
             codon.append(elem)
     return codonized_chain
-
-def process_del(codonized_chain, backspace):
-    processed_codonized_chain = codonized_chain
-    last = codonized_chain[-1]
-    if backspace < len(last):
-        for i in range(backspace):
-            processed_codonized_chain[-1].pop()
-    elif backspace == len(last):
-        processed_codonized_chain.pop()
-    elif backspace > len(codonized_chain):
-        processed_codonized_chain = []
-    else:
-        processed_codonized_chain.pop()
-        for i in range(backspace - len(last)):
-            processed_codonized_chain.pop()
-    #print processed_codonized_chain
-    return processed_codonized_chain
 
 def codon_merge(codon):
     """Gets single codon, outputs the merged form, namely the letter"""
@@ -178,30 +160,7 @@ def codon_merge(codon):
         elif third[0] == 'q' and third[1] == 't': t = 19     #ㅄ
         elif third[0] == 't' and third[1] == 't': t = 21     #ㅆ
 
-    if f >= 1 and s == 0:
-        if first[0] == 'r': f = 1       #ㄱ
-        elif first[0] == 's': f = 4     #ㄴ
-        elif first[0] == 'e': f = 7     #ㄷ
-        elif first[0] == 'f': f = 9     #ㄹ
-        elif first[0] == 'a': f = 17    #ㅁ
-        elif first[0] == 'q': f = 18    #ㅂ
-        elif first[0] == 't': f = 21    #ㅅ
-        elif first[0] == 'd': f = 23    #ㅇ
-        elif first[0] == 'w': f = 24    #ㅈ
-        elif first[0] == 'c': f = 26    #ㅊ
-        elif first[0] == 'z': f = 27    #ㅋ
-        elif first[0] == 'x': f = 28    #ㅌ
-        elif first[0] == 'v': f = 29    #ㅍ
-        elif first[0] == 'g': f = 30    #ㅎ
-        elif first[0] == 'R': f = 2     #ㄲ
-        elif first[0] == 'T': f = 16    #ㅆ
-        elif first[0] == 'E': f = 6     #ㄸ
-        elif first[0] == 'Q': f = 13    #ㅃ
-        elif first[0] == 'W': f = 19    #ㅉ
-        order = 12592 + f
-        #print unichr(order)
-    else:
-        order = 44032 + (f-1)*21*28 + (s-1)*28 + (t-1)
+    order = 44032 + (f-1)*21*28 + (s-1)*28 + (t-1)
     return unichr(order)
 
 def letterize_chain(codonized_chain):
@@ -213,7 +172,6 @@ def letterize_chain(codonized_chain):
 
 def sentence_printer(sentence):
     """Gets letterized_chain, outputs the correct hangeul sentence"""
-    if len(sentence) == 0:
-        return 2;
     for letter in sentence:
-        sys.stdout.write(letter)
+        print letter
+    return 2
