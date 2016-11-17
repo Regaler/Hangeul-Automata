@@ -6,7 +6,7 @@ Windows7 64bits, python2.7
 
 2. How to run
 goto cmd, the directory of the files.
->> TOTALPLAN.py hangeulmealy.txt
+$ TOTALPLAN.py hangeulmealy.txt
 
 3. Result
 Input: qnpfrchlfqgpggpg
